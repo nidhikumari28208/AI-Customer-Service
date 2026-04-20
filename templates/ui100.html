@@ -2,12 +2,14 @@
 <html>
 <head>
     <title>AI Chatbot</title>
+
     <style>
         body {
             margin: 0;
             font-family: Arial;
             background: #ece5dd;
         }
+
         .chat-container {
             width: 400px;
             height: 600px;
@@ -18,11 +20,13 @@
             border-radius: 10px;
             overflow: hidden;
         }
+
         .header {
             background: #5e073b;
             color: white;
             padding: 15px;
         }
+
         .chat-box {
             flex: 1;
             padding: 10px;
@@ -31,31 +35,37 @@
             display: flex;
             flex-direction: column;
         }
+
         .message {
             margin: 10px 0;
             max-width: 70%;
             padding: 10px;
             border-radius: 10px;
         }
+
         .user {
             background: #f4c6f8;
             align-self: flex-end;
         }
+
         .bot {
             background: white;
             align-self: flex-start;
         }
+
         .input-box {
             display: flex;
             padding: 10px;
             background: #f0f0f0;
         }
+
         input {
             flex: 1;
             padding: 10px;
             border: none;
             border-radius: 5px;
         }
+
         button {
             padding: 10px;
             margin-left: 5px;
@@ -65,6 +75,7 @@
             border-radius: 5px;
             cursor: pointer;
         }
+
         .top-btn {
             float: right;
             background: white;
@@ -73,12 +84,16 @@
         }
     </style>
 </head>
+
 <body>
+
 <div class="chat-container">
+
     <div class="header">
         AI Assistant 🤖
         <button class="top-btn" onclick="startNewChat()">New Chat</button>
     </div>
+
     <div class="chat-box" id="chatBox">
         {% if chat_history %}
             {% for msg in chat_history %}
@@ -90,19 +105,27 @@
             <p style="text-align:center;">Start chatting...</p>
         {% endif %}
     </div>
+
     <div class="input-box">
         <input type="text" id="msg" placeholder="Type a message..." />
         <button onclick="sendMessage()">Send</button>
     </div>
+
 </div>
+
 <script>
 async function sendMessage() {
     let input = document.getElementById("msg");
     let message = input.value;
+
     if (!message) return;
+
     let chatBox = document.getElementById("chatBox");
+
+    // show user msg
     chatBox.innerHTML += `<div class="message user">${message}</div>`;
     input.value = "";
+
     let res = await fetch("/chat", {
         method: "POST",
         headers: {
@@ -110,13 +133,17 @@ async function sendMessage() {
         },
         body: JSON.stringify({ message: message })
     });
+
     let data = await res.json();
+
     chatBox.innerHTML += `<div class="message bot">${data.reply}</div>`;
     chatBox.scrollTop = chatBox.scrollHeight;
 }
+
 document.getElementById("msg").addEventListener("keypress", function(e) {
     if (e.key === "Enter") sendMessage();
 });
+
 function startNewChat() {
     window.location.href = "/new_chat";
 }
