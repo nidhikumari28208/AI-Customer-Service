@@ -7,7 +7,7 @@ from difflib import SequenceMatcher
 
 app = Flask(__name__)
 
-client = Groq(api_key="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")
+client = Groq(api_key="")
 
 MEMORY_FILE = "memory.json"
 
